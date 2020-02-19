@@ -1,6 +1,7 @@
 package org.gridu
 
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.streaming.{OutputMode, Trigger}
 import org.gridu.config.{AppConfig, BotConfig}
 import org.gridu.spark.StructuredUtils._
 import org.gridu.spark.{Click, EnrichedClick, KafkaStructuredStreamProvider, Spark}
@@ -26,7 +27,24 @@ object StructuredStreamBotJob extends App with Spark {
     saveFunction(enriched)
   }
 
-  def save(rdd: Dataset[EnrichedClick]): Unit = ???
+  def save(enriched: Dataset[EnrichedClick]): Unit = {
+
+    import org.gridu.cassandra.CassandraUtils._
+    implicit val ss: SparkSession = spark
+
+    def cassandraQuery(record: EnrichedClick): String =
+
+    //todo change query
+      s"""INSERT INTO ${appConfig.cassandra.keySpace}.${appConfig.cassandra.table} (ip) VALUES('${record.ip}') USING TTL 600"""
+
+    enriched
+      .writeToCassandraStructured(cassandraQuery)
+      .trigger(Trigger.ProcessingTime("20 seconds"))
+      .outputMode(OutputMode.Update())
+      .start()
+      .awaitTermination()
+
+  }
 
   def filterMalformed(input: Dataset[(String, String)]): Dataset[Click] = {
     import spark.implicits._

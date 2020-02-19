@@ -9,6 +9,7 @@ trait Spark {
   lazy val spark: SparkSession = SparkSession.builder()
     .master(appConfig.spark.mode)
     .appName(appConfig.spark.appName)
+    .config("spark.cassandra.connection.host", appConfig.cassandra.host)
+    .config("spark.cassandra.connection.port", appConfig.cassandra.port)
     .getOrCreate()
-
 }
