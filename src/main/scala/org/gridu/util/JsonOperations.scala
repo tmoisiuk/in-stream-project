@@ -20,7 +20,7 @@ import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
       } catch {
         case _: Exception =>
           val className = m.runtimeClass.getSimpleName
-          throw new Exception(s"""Can not cast "$json" to $className""")
+          throw new Exception(s"""Cannot cast "$json" to $className""")
       }
   }
 
@@ -32,7 +32,6 @@ import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
       .registerModule(DefaultScalaModule)
       .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
       .setSerializationInclusion(Include.NON_NULL)
-      .enable(SerializationFeature.INDENT_OUTPUT)
 
     objectMapper
   }

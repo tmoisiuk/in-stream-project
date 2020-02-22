@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cd /Users/tmoisiuk/IdeaProjects/in-stream-project/kafka-connect
+
 docker-compose up kafka-cluster
 
 docker run --rm -it -v "$(pwd)":/bot-detection --net=host landoop/fast-data-dev:cp3.3.0 bash
