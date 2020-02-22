@@ -8,7 +8,7 @@ CREATE TABLE EnrichedClicks (
 
 type TEXT,
 ip TEXT PRIMARY KEY,
-is_bot: BOOLEAN,
-event_time: LONG,
-url: TEXT
+is_bot BOOLEAN,
+event_time BIGINT,
+url TEXT
 );
