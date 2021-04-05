@@ -8,8 +8,8 @@ docker run --rm -it -v "$(pwd)":/bot-detection --net=host landoop/fast-data-dev:
 
 cd /bot-detection
 
-kafka-topics --create --topic click-stream --partitions 3 --replication-factor 1 --zookeeper 127.0.0.1:2181
+kafka-topics.sh --create --topic hh --partitions 3 --replication-factor 1 --zookeeper 127.0.0.1:2181
 
 connect-standalone worker.properties bot-detection-stream.properties
 
-#tmoisiuk@C6507 kafka_2.12-2.2.1 % bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic click-stream --from-beginning
+#tmoisiuk@C6507 ~/kafka_2.12-2.2.1/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic hh --from-beginning
